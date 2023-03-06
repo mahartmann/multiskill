@@ -60,7 +60,7 @@ def main(args):
     # load train data
     tokenizer = load_tokenizer(args.bert_model)
     logger.info('Inputs will be lower cased: {}'.format(tokenizer.do_lower_case))
-    train_data = NERDataset(ner_reader.load_data(config.get('Files', '{}_train'.format(args.ds)),ds=args.ds), tokenizer=tokenizer, max_seq_len=args.max_seq_len, split_seqs=args.split_seqs)
+    train_data = NERDataset(ner_reader.load_data(config.get('Files', '{}_train'.format(args.ds))), tokenizer=tokenizer, max_seq_len=args.max_seq_len, split_seqs=args.split_seqs)
     train_dataloader = DataLoader(train_data, shuffle=True, batch_size=args.bs, collate_fn=train_data.collate)
     logger.info('Loaded {} train examples from {}'.format(len(train_data), args.ds))
     logger.info('Found {} labels: {}'.format(len(train_data.label2id), train_data.label2id))
@@ -68,14 +68,14 @@ def main(args):
     id2label = train_data.id2label
 
     # load dev data
-    dev_data = NERDataset(ner_reader.load_data(config.get('Files','{}_dev'.format(args.ds)),ds=args.ds), tokenizer=tokenizer,
+    dev_data = NERDataset(ner_reader.load_data(config.get('Files','{}_dev'.format(args.ds))), tokenizer=tokenizer,
                           max_seq_len=args.max_seq_len, label2id=train_data.label2id, split_seqs=args.split_seqs)
     dev_dataloader = DataLoader(dev_data, shuffle=False, batch_size=args.bs_prediction, collate_fn=dev_data.collate)
     logger.info('Loaded {} dev examples from {}'.format(len(dev_data), json.dumps(args.ds, indent=4)))
 
     # load test data
     if args.predict:
-        test_data = NERDataset(ner_reader.load_data(config.get('Files', '{}_test'.format(args.ds)),ds=args.ds),
+        test_data = NERDataset(ner_reader.load_data(config.get('Files', '{}_test'.format(args.ds))),
                                tokenizer=tokenizer, max_seq_len=args.max_seq_len, label2id=train_data.label2id, split_seqs=args.split_seqs)
         test_dataloader = DataLoader(test_data, shuffle=False, batch_size=args.bs_prediction, collate_fn=test_data.collate)
         logger.info('Loaded {} test examples from {}'.format(len(test_data), args.ds))

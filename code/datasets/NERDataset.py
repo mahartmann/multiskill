@@ -91,6 +91,8 @@ class NERDataset(Dataset):
                     subtoks.append(subtok)
                     if sid == 0:
                         sublabels.append(example.label[tid])
+                    elif not subtok.startswith('##'):
+                        sublabels.append(example.label[tid])
                     else:
                         sublabels.append('X')
 

@@ -3,7 +3,7 @@ import configparser
 from datasets.InputExample import SeqLabelingInputExample
 import itertools
 
-def load_data(fname, ds):
+def load_data(fname):
     examples = []
     with open(fname) as f:
         for line in f:
